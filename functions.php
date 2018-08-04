@@ -1,6 +1,6 @@
 <?php
 
-if ( site_url() == "http://demo.lwhh.com" ) {
+if ( site_url() == "http://meal.lwhh.com" ) {
     define( "VERSION", time() );
 } else {
     define( "VERSION", wp_get_theme()->get( "Version" ) );
