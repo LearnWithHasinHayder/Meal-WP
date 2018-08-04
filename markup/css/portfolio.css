@@ -1,0 +1,385 @@
+.portfolio-filter
+{
+    margin: 50px 0; 
+
+    list-style: none;
+}
+.portfolio-filter li
+{
+    display: inline-block;
+
+    margin: 0 5px;
+}
+@media (max-width: 667px)
+{
+    .portfolio-filter li
+    {
+        margin: 10px 2px;
+    }
+}
+.portfolio-filter li a
+{
+    font-size: 12px; 
+
+    padding: 10px 20px;
+
+    text-decoration: none;
+    text-transform: uppercase;
+
+    color: #222;
+}
+@media (max-width: 667px)
+{
+    .portfolio-filter li a
+    {
+        padding: 5px 10px;
+    }
+}
+.portfolio-filter li a:hover
+{
+    color: #fff;
+    border-radius: 3px; 
+    background: #ccc;
+}
+.portfolio-filter li.active a
+{
+    padding: 10px 20px;
+
+    color: #fff;
+    border-radius: 3px; 
+    background: #ccc;
+}
+@media (max-width: 667px)
+{
+    .portfolio-filter li.active a
+    {
+        padding: 5px 10px;
+    }
+}
+
+/*portfolio-grid*/
+.portfolio-grid .portfolio-item
+{
+    float: left;
+}
+.portfolio-grid .portfolio-item a:focus
+{
+    outline: none;
+}
+.portfolio-grid .portfolio-item .portfolio-image
+{
+    position: relative; 
+
+    display: block;
+}
+.portfolio-grid .portfolio-item .portfolio-image img
+{
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+.portfolio-grid .portfolio-item .portfolio-image .portfolio-hover-title
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    margin: 0;
+    padding: 30px;
+
+    -webkit-transition: all .3s;
+            transition: all .3s;
+
+    opacity: 0;
+    background-color: rgba(0, 0, 0, .9);
+
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+            align-items: center;
+}
+.portfolio-grid .portfolio-item .portfolio-image .portfolio-hover-title .portfolio-content
+{
+    position: absolute;
+    top: 60%;
+    left: 0;
+
+    width: 100%;
+
+    -webkit-transition: all .3s;
+            transition: all .3s; 
+    -webkit-transform: translateY(-55%);
+        -ms-transform: translateY(-55%);
+            transform: translateY(-55%);
+    text-align: center;
+}
+.portfolio-grid .portfolio-item .portfolio-image .portfolio-hover-title .portfolio-content h4
+{
+    color: #fff;
+}
+.portfolio-grid .portfolio-item .portfolio-image .portfolio-hover-title .portfolio-content .portfolio-category span
+{
+    margin: 0 5px; 
+    font-size:12px;
+    color: #4d73ff;
+}
+.portfolio-grid .portfolio-item:hover .portfolio-hover-title
+{
+    opacity: 1;
+}
+.portfolio-grid .portfolio-item:hover .portfolio-hover-title .portfolio-content
+{
+    top: 50%;
+}
+
+.portfolio-grid .portfolio-title
+{
+    margin-bottom: 5%;
+}
+
+.portfolio-grid.grid-2 .portfolio-item
+{
+    width: 50%;
+}
+@media (max-width: 768px)
+{
+    .portfolio-grid.grid-2 .portfolio-item
+    {
+        width: 50%;
+    }
+}
+@media (max-width: 568px)
+{
+    .portfolio-grid.grid-2 .portfolio-item
+    {
+        width: 100%;
+    }
+}
+
+.portfolio-grid.grid-3 .portfolio-item
+{
+    width: 33.33%;
+}
+@media (max-width: 768px)
+{
+    .portfolio-grid.grid-3 .portfolio-item
+    {
+        width: 50%;
+    }
+}
+@media (max-width: 568px)
+{
+    .portfolio-grid.grid-3 .portfolio-item
+    {
+        width: 100%;
+    }
+}
+
+.portfolio-grid.grid-4 .portfolio-item
+{
+    width: 25%;
+}
+@media (max-width: 768px)
+{
+    .portfolio-grid.grid-4 .portfolio-item
+    {
+        width: 50%;
+    }
+}
+@media (max-width: 568px)
+{
+    .portfolio-grid.grid-4 .portfolio-item
+    {
+        width: 100%;
+    }
+}
+
+.portfolio-grid.grid-5 .portfolio-item
+{
+    width: 20%;
+}
+@media (max-width: 768px)
+{
+    .portfolio-grid.grid-5 .portfolio-item
+    {
+        width: 50%;
+    }
+}
+@media (max-width: 568px)
+{
+    .portfolio-grid.grid-5 .portfolio-item
+    {
+        width: 100%;
+    }
+}
+
+.portfolio-grid.grid-2.gutter
+{
+    margin-right: -2%;
+}
+.portfolio-grid.grid-2.gutter .portfolio-item
+{
+    width: 48%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+@media (max-width: 768px)
+{
+    .portfolio-grid.grid-2.gutter .portfolio-item
+    {
+        width: 48%;
+    }
+}
+@media (max-width: 568px)
+{
+    .portfolio-grid.grid-2.gutter .portfolio-item
+    {
+        width: 98%;
+    }
+}
+
+.portfolio-grid.grid-3.gutter
+{
+    margin-right: -2%;
+}
+.portfolio-grid.grid-3.gutter .portfolio-item
+{
+    width: 31.33%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+@media (max-width: 768px)
+{
+    .portfolio-grid.grid-3.gutter .portfolio-item
+    {
+        width: 48%;
+    }
+}
+@media (max-width: 568px)
+{
+    .portfolio-grid.grid-3.gutter .portfolio-item
+    {
+        width: 98%;
+    }
+}
+
+.portfolio-grid.grid-4.gutter
+{
+    margin-right: -2%;
+}
+.portfolio-grid.grid-4.gutter .portfolio-item
+{
+    width: 23%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+@media (max-width: 768px)
+{
+    .portfolio-grid.grid-4.gutter .portfolio-item
+    {
+        width: 48%;
+    }
+}
+@media (max-width: 568px)
+{
+    .portfolio-grid.grid-4.gutter .portfolio-item
+    {
+        width: 98%;
+    }
+}
+
+.portfolio-grid.grid-5.gutter
+{
+    margin-right: -2%;
+}
+.portfolio-grid.grid-5.gutter .portfolio-item
+{
+    width: 18%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+@media (max-width: 768px)
+{
+    .portfolio-grid.grid-5.gutter .portfolio-item
+    {
+        width: 48%;
+    }
+}
+@media (max-width: 568px)
+{
+    .portfolio-grid.grid-5.gutter .portfolio-item
+    {
+        width: 98%;
+    }
+}
+
+.portfolio-masonry .portfolio-title
+{
+    padding-left: 3%;
+}
+
+.portfolio-masonry.gutter .portfolio-title
+{
+    padding-left: 0;
+}
+
+/*---------------------------------------
+ isotop style
+ --------------------------------------- */
+.isotope-item
+{
+    z-index: 2;
+}
+
+.isotope-hidden.isotope-item
+{
+    z-index: 1; 
+
+    pointer-events: none;
+}
+
+/*Isotope CSS3 transitions */
+.isotope,
+.isotope .isotope-item
+{
+    -webkit-transition-duration: .8s;
+            transition-duration: .8s;
+}
+
+.isotope
+{
+    -webkit-transition-property: height, width;
+            transition-property: height, width;
+}
+
+.isotope .isotope-item
+{
+    -webkit-transition-property: -webkit-transform, opacity;
+    -webkit-transition-property: opacity, -webkit-transform;
+            transition-property: opacity, -webkit-transform;
+            transition-property:         transform, opacity;
+            transition-property:         transform, opacity, -webkit-transform;
+}
+
+/*disabling Isotope CSS3 transitions */
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition
+{
+    -webkit-transition-duration: 0s;
+            transition-duration: 0s;
+}
+
+/* disable CSS transitions for containers with infinite scrolling*/
+.isotope.infinite-scrolling
+{
+    -webkit-transition: none;
+            transition: none;
+}
