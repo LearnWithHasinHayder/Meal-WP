@@ -1,16 +1,18 @@
 <?php
 require_once get_theme_file_path("/lib/csf/cs-framework.php");
 require_once get_theme_file_path("/inc/metaboxes/section.php");
+require_once get_theme_file_path("/inc/metaboxes/recipe.php");
 require_once get_theme_file_path("/inc/metaboxes/page.php");
 require_once get_theme_file_path("/inc/metaboxes/section-banner.php");
 require_once get_theme_file_path("/inc/metaboxes/section-featured.php");
 require_once get_theme_file_path("/inc/metaboxes/section-gallery.php");
 require_once get_theme_file_path("/inc/metaboxes/section-chef.php");
 require_once get_theme_file_path("/inc/metaboxes/section-services.php");
+require_once get_theme_file_path("/inc/metaboxes/taxonomy-featured.php");
 
 define( 'CS_ACTIVE_FRAMEWORK', false ); // default true
 define( 'CS_ACTIVE_METABOX', true ); // default true
-define( 'CS_ACTIVE_TAXONOMY', false ); // default true
+define( 'CS_ACTIVE_TAXONOMY', true ); // default true
 define( 'CS_ACTIVE_SHORTCODE', false ); // default true
 define( 'CS_ACTIVE_CUSTOMIZE', false ); // default true
 
@@ -76,6 +78,7 @@ add_action( 'wp_enqueue_scripts', 'meal_assets' );
 
 function meal_codestar_init(){
     CSFramework_Metabox::instance(array());
+    CSFramework_Taxonomy::instance(array());
 }
 add_action('init','meal_codestar_init');
 
