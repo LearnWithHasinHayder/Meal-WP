@@ -79,6 +79,9 @@ $meal_section_description = $meal_section->post_content;
 						<div class="col-md-4">
 							<input type="submit" id="reservenow" class="btn btn-primary btn-outline-primary btn-block"
 							       value="Reserve Now">
+                            <a href="#" target="_blank" class="btn btn-primary btn-outline-primary btn-block" style="display: none" id="paynow">
+                                <?php _e('Complete Payment','meal') ?>
+                            </a>
 						</div>
 					</div>
 				</form>
