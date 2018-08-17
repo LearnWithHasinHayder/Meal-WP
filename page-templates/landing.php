@@ -10,42 +10,15 @@ get_header();
     <div class="main-wrap " id="section-home">
 
         <?php
-        $section_id = 13;
-        get_template_part("section-templates/banner");
-        ?>
 
-        <?php
-        $section_id = 14;
-        get_template_part("section-templates/featured");
-        ?>
-
-
-        <?php
-        $section_id = 15;
-        get_template_part("section-templates/gallery");
-        ?>
-
-
-        <?php
-        $section_id = 32;
-        get_template_part("section-templates/chef");
-        ?>
-
-	    <?php
-	    $section_id = 42;
-	    get_template_part("section-templates/menu");
-	    ?>
-
-
-        <?php
-        $section_id = 41;
-        get_template_part("section-templates/services");
-        ?>
-
-
-        <?php
-        $section_id = 43;
-        get_template_part("section-templates/reservation");
+        $meal_current_page_id = get_the_ID();
+        $meal_page_meta = get_post_meta($meal_current_page_id,'meal-page-sections',true);
+        foreach($meal_page_meta['sections'] as $meal_page_section):
+            $meal_section_id = $meal_page_section['section'];
+            $meal_section_meta = get_post_meta($meal_section_id,'meal-section-type',true);
+            $meal_section_type = $meal_section_meta['type'];
+	        get_template_part("section-templates/{$meal_section_type}");
+        endforeach;
         ?>
 
 

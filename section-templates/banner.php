@@ -1,11 +1,11 @@
 <?php
-global $section_id;
-$meal_section_meta = get_post_meta( $section_id, 'meal-section-banner', true );
+global $meal_section_id;
+$meal_section_meta = get_post_meta( $meal_section_id, 'meal-section-banner', true );
 $meal_banner_image = get_template_directory_uri() . '/assets/images/slider-1.jpg';
 if ( isset( $meal_section_meta['banner_image'] ) ) {
     $meal_banner_image = wp_get_attachment_image_src( $meal_section_meta['banner_image'], 'full' );
 }
-$meal_section             = get_post( $section_id );
+$meal_section             = get_post( $meal_section_id );
 $meal_section_title       = $meal_section->post_title;
 $meal_section_description = $meal_section->post_content;
 
