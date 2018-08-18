@@ -35,6 +35,8 @@ function meal_theme_setup() {
 		'comment-list'
 	) );
 	add_theme_support( 'custom-logo' );
+
+	register_nav_menu( 'primary', __( 'Main Menu', 'meal' ) );
 }
 
 add_action( 'after_setup_theme', 'meal_theme_setup' );
@@ -79,8 +81,10 @@ function meal_assets() {
 
 	if ( is_page_template( 'page-templates/landing.php' ) ) {
 		wp_enqueue_script( 'meal-reservation-js', get_template_directory_uri() . '/assets/js/reservation.js', array( 'jquery' ), VERSION, true );
+		wp_enqueue_script( 'meal-contact-js', get_template_directory_uri() . '/assets/js/contact.js', array( 'jquery' ), VERSION, true );
 		$ajaxurl = admin_url( 'admin-ajax.php' );
 		wp_localize_script( 'meal-reservation-js', 'mealurl', array( 'ajaxurl' => $ajaxurl ) );
+		wp_localize_script( 'meal-contact-js', 'mealurl', array( 'ajaxurl' => $ajaxurl ) );
 	}
 }
 
@@ -159,13 +163,13 @@ function meal_process_reservation() {
 			$reservation_id = wp_insert_post( $reservation_arguments, $wp_error );
 
 			//transient check
-			$reservation_count = get_transient('res_count')?get_transient('res_count'):0;
+			$reservation_count = get_transient( 'res_count' ) ? get_transient( 'res_count' ) : 0;
 			//transient check end
 
 			if ( ! $wp_error ) {
 
-				$reservation_count++;
-				set_transient('res_count',$reservation_count,0);
+				$reservation_count ++;
+				set_transient( 'res_count', $reservation_count, 0 );
 
 				$_name      = explode( " ", $name );
 				$order_data = array(
@@ -242,25 +246,45 @@ function meal_order_status_processing( $order_id ) {
 
 add_filter( 'woocommerce_order_status_processing', 'meal_order_status_processing' );
 
-function meal_change_menu($menu){
-	$reservation_count = get_transient('res_count')?get_transient('res_count'):0;
-	if($reservation_count>0){
+function meal_change_menu( $menu ) {
+	$reservation_count = get_transient( 'res_count' ) ? get_transient( 'res_count' ) : 0;
+	if ( $reservation_count > 0 ) {
 		$menu[5][0] = "Reservation <span class='awaiting-mod'>{$reservation_count}</span> ";
 	}
+
 	return $menu;
 }
-add_filter('add_menu_classes','meal_change_menu');
 
-function meal_admin_scripts($screen){
+add_filter( 'add_menu_classes', 'meal_change_menu' );
+
+function meal_admin_scripts( $screen ) {
 	$_screen = get_current_screen();
-	if('edit.php'==$screen && 'reservation'==$_screen->post_type){
-		delete_transient('res_count');
+	if ( 'edit.php' == $screen && 'reservation' == $_screen->post_type ) {
+		delete_transient( 'res_count' );
 	}
 }
-add_action('admin_enqueue_scripts','meal_admin_scripts');
 
+add_action( 'admin_enqueue_scripts', 'meal_admin_scripts' );
 
+function meal_contact_email(){
+	if(check_ajax_referer('contact','cn')) {
+		$name    = isset( $_POST['name'] ) ? $_POST['name'] : '';
+		$email   = isset( $_POST['email'] ) ? $_POST['email'] : '';
+		$phone   = isset( $_POST['phone'] ) ? $_POST['phone'] : '';
+		$message = isset( $_POST['message'] ) ? $_POST['message'] : '';
 
+		$_message    = sprintf( "%s \nFrom: %s\nEmail: %s\nPhone: %s", $message, $name, $email, $phone );
+		$admin_email = get_option( 'admin_email' );
+
+		//postfix
+
+		wp_mail( 'me@hasin.me', __( 'Someone tried to contact you', 'meal' ), $_message, "From: hasin@hasinhayder.com\r\n" );
+		die( 'successful' );
+	}
+	die('error');
+}
+add_action('wp_ajax_contact','meal_contact_email');
+add_action('wp_ajax_nopriv_contact','meal_contact_email');
 
 
 
