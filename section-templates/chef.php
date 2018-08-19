@@ -6,7 +6,7 @@ $meal_section_title       = $meal_section->post_title;
 $meal_section_description = $meal_section->post_content;
 ?>
 
-<div class="section bg-white" data-aos="fade-up">
+<div class="section bg-white" data-aos="fade-up" id="<?php echo esc_attr($meal_section->post_name); ?>">
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-12 section-heading text-center">

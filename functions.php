@@ -287,7 +287,24 @@ add_action('wp_ajax_contact','meal_contact_email');
 add_action('wp_ajax_nopriv_contact','meal_contact_email');
 
 
+function meal_change_nav_menu($menus){
+	$string_to_replace = home_url("/")."section/";
+	if(is_front_page()) {
+		foreach ( $menus as $menu ) {
+			$new_url = str_replace( $string_to_replace, "#", $menu->url );
 
+			if($new_url != $menu->url){
+				$new_url = rtrim($new_url,"/");
+			}
+
+			$menu->url = $new_url;
+		}
+	}
+
+	return $menus;
+}
+
+add_filter('wp_nav_menu_objects','meal_change_nav_menu');
 
 
 
