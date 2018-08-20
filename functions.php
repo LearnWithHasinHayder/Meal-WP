@@ -10,7 +10,7 @@ require_once get_theme_file_path( "/inc/metaboxes/section-chef.php" );
 require_once get_theme_file_path( "/inc/metaboxes/section-services.php" );
 require_once get_theme_file_path( "/inc/metaboxes/taxonomy-featured.php" );
 
-define( 'CS_ACTIVE_FRAMEWORK', false ); // default true
+define( 'CS_ACTIVE_FRAMEWORK', true ); // default true
 define( 'CS_ACTIVE_METABOX', true ); // default true
 define( 'CS_ACTIVE_TAXONOMY', true ); // default true
 define( 'CS_ACTIVE_SHORTCODE', false ); // default true
@@ -93,9 +93,63 @@ add_action( 'wp_enqueue_scripts', 'meal_assets' );
 function meal_codestar_init() {
 	CSFramework_Metabox::instance( array() );
 	CSFramework_Taxonomy::instance( array() );
+
+	$settings = array(
+		'menu_title'      => __( 'Meal Options', 'meal' ),
+		'menu_type'       => 'submenu',
+		'menu_parent'     => 'themes.php',
+		'menu_slug'       => 'meal_option_panel',
+		'framework_title' => __( 'Meal Options', 'meal' ),
+		'menu_icon'       => 'dashicons-dashboard',
+		'menu_position'   => 20,
+		'ajax_save'       => false,
+		'show_reset_all'  => true
+	);
+
+	new CSFramework( $settings, meal_get_theme_options() );
 }
 
 add_action( 'init', 'meal_codestar_init' );
+
+
+function meal_get_theme_options() {
+	$options   = array();
+	$options[] = array(
+		'name'   => 'meal_theme_activation',
+		'title'  => __( 'Theme Activation', 'meal' ),
+		'icon'   => 'fa fa-heart',
+		'fields' => array(
+			array(
+				'id'    => 'meal_username',
+				'type'  => 'text',
+				'title' => __( 'Username', 'meal' ),
+			),
+			array(
+				'id'    => 'meal_purchase_code',
+				'type'  => 'text',
+				'title' => __( 'Purchase Code', 'meal' ),
+			),
+		)
+	);
+
+	$username = cs_get_option( 'meal_username' );
+	$purchase_code = cs_get_option( 'meal_purchase_code' );
+	$token = get_option( 'meal_theme_token' );
+
+	if ( get_option( 'meal_theme_activation' ) == 1 ) {
+
+		$theme_demo_url = "http://secure.meal.com/deliver.php?u={$username}&pc={$purchase_code}&token={$token}&file=theme-demo";
+		$options[ count( $options ) - 1 ]['fields'][] = array(
+			'id'    => 'meal_download_file',
+			'type'  => 'notice',
+			'class' => 'success',
+			'content' =>  "Download <a target='_blank' href='{$theme_demo_url}'>From Here</a> ",
+		);
+	}
+
+	return $options;
+}
+
 
 function get_recipe_category( $recipe_id ) {
 	$terms = wp_get_post_terms( $recipe_id, "category" );
@@ -266,8 +320,8 @@ function meal_admin_scripts( $screen ) {
 
 add_action( 'admin_enqueue_scripts', 'meal_admin_scripts' );
 
-function meal_contact_email(){
-	if(check_ajax_referer('contact','cn')) {
+function meal_contact_email() {
+	if ( check_ajax_referer( 'contact', 'cn' ) ) {
 		$name    = isset( $_POST['name'] ) ? $_POST['name'] : '';
 		$email   = isset( $_POST['email'] ) ? $_POST['email'] : '';
 		$phone   = isset( $_POST['phone'] ) ? $_POST['phone'] : '';
@@ -281,20 +335,21 @@ function meal_contact_email(){
 		wp_mail( 'me@hasin.me', __( 'Someone tried to contact you', 'meal' ), $_message, "From: hasin@hasinhayder.com\r\n" );
 		die( 'successful' );
 	}
-	die('error');
+	die( 'error' );
 }
-add_action('wp_ajax_contact','meal_contact_email');
-add_action('wp_ajax_nopriv_contact','meal_contact_email');
+
+add_action( 'wp_ajax_contact', 'meal_contact_email' );
+add_action( 'wp_ajax_nopriv_contact', 'meal_contact_email' );
 
 
-function meal_change_nav_menu($menus){
-	$string_to_replace = home_url("/")."section/";
-	if(is_front_page()) {
+function meal_change_nav_menu( $menus ) {
+	$string_to_replace = home_url( "/" ) . "section/";
+	if ( is_front_page() ) {
 		foreach ( $menus as $menu ) {
 			$new_url = str_replace( $string_to_replace, "#", $menu->url );
 
-			if($new_url != $menu->url){
-				$new_url = rtrim($new_url,"/");
+			if ( $new_url != $menu->url ) {
+				$new_url = rtrim( $new_url, "/" );
 			}
 
 			$menu->url = $new_url;
@@ -304,10 +359,40 @@ function meal_change_nav_menu($menus){
 	return $menus;
 }
 
-add_filter('wp_nav_menu_objects','meal_change_nav_menu');
+add_filter( 'wp_nav_menu_objects', 'meal_change_nav_menu' );
+
+function meal_verify_purchase() {
+	$username      = cs_get_option( 'meal_username' );
+	$purchase_code = cs_get_option( 'meal_purchase_code' );
+	if ( $username != '' && $purchase_code != '' ) {
+		$url      = "http://secure.meal.com/verify.php?u={$username}&pc={$purchase_code}";
+		$response = wp_remote_get( $url );
+		$body     = $response['body'];
+		if ( 'error' != $body ) {
+			update_option( 'meal_theme_activation', 1 );
+			update_option( 'meal_theme_token', $body );
+			require_once(get_theme_file_path("/inc/tgm.php"));
+		} else {
+			update_option( 'meal_theme_activation', 0 );
+			update_option( 'meal_theme_token', '' );
+		}
+
+	} else {
+		update_option( 'meal_theme_activation', 0 );
+		update_option( 'meal_theme_token', '' );
+	}
+
+}
+
+add_action( 'after_setup_theme', 'meal_verify_purchase' );
 
 
-
+function meal_allow_external_host($allow,$host, $url){
+	if('secure.meal.com'==$host){
+		return true;
+	}
+}
+add_filter('http_request_host_is_external','meal_allow_external_host',10,3);
 
 
 
