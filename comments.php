@@ -22,14 +22,14 @@
 <div class="row">
 	<div class=" col-md-6">
 		<div class="form-group">
-			<input type="text" class="form-control" placeholder="{$flowapp_name_field_placeholder}*" required="">
+			<input type="text" id="author" name="author"  class="form-control" placeholder="{$flowapp_name_field_placeholder}*" required="">
 		</div>
 	</div>
 EOD;
 				$meal_comment_fields['email'] = <<<EOD
 	<div class=" col-md-6">
 		<div class="form-group ">
-			<input type="email" class="form-control" placeholder="Email*" required="">
+			<input type="email" id="email" name="email" class="form-control" placeholder="Email*" required="">
 		</div>
 	</div>
 </div>
@@ -37,15 +37,15 @@ EOD;
 				$meal_comment_fields['url'] = <<<EOD
 <div class="form-group">
 	<div class="controls">
-		<input type="text" class="form-control" placeholder="Website" required="">
+		<input type="text" id="url" name="url" class="form-control" placeholder="Website" required="">
 	</div>
 </div>
 EOD;
 				$meal_comment_field = <<<EOD
 <div class="form-group">
 	<div class="controls">
-                    <textarea id="message" rows="1" placeholder="Comments*" class="form-control"
-                              required=""></textarea>
+        <textarea id="comment" name="comment" rows="1" placeholder="Comments*" class="form-control"
+                  required=""></textarea>
 	</div>
 </div>
 EOD;
