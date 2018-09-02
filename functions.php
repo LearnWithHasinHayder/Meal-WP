@@ -394,5 +394,25 @@ function meal_allow_external_host($allow,$host, $url){
 }
 add_filter('http_request_host_is_external','meal_allow_external_host',10,3);
 
+function meal_comment_form_fields($fields){
+	/*echo "<pre>";
+	print_r($fields);
+	echo "</pre>";*/
+
+	$comment_field = $fields['comment'];
+	unset($fields['comment']);
+	$fields['comment'] = $comment_field;
+	return $fields;
+}
+add_filter('comment_form_fields','meal_comment_form_fields');
+
+
+
+
+
+
+
+
+
 
 
