@@ -11,13 +11,14 @@ Tags: blog, food-and-drink
 Text Domain: meal
 */
 
-.post-body{
-    padding:100px 0px 70px 0px;
+.post-body {
+    padding: 100px 0px 70px 0px;
 }
-.single-post .comments{
-    margin-top:60px;
+
+.single-post .comments {
+    margin-top: 60px;
     background-color: #eeeeee;
-    padding:100px 0px;
+    padding: 100px 0px;
 }
 
 .single-post .commentlist {
@@ -29,9 +30,11 @@ Text Domain: meal
 .single-post .commentlist li, .single-post .commentlist .comment-body {
     margin-bottom: 3rem;
 }
+
 .single-post ul li {
     color: #94989d;
 }
+
 .single-post .commentlist li, .single-post .commentlist .comment-body {
     margin-bottom: 3rem;
 }
@@ -78,9 +81,9 @@ Text Domain: meal
 
 /* comments form */
 
-   .comments-form .form-group {
-       margin-bottom: 1.8rem;
-   }
+.comments-form .form-group {
+    margin-bottom: 1.8rem;
+}
 
 .comments-form .form-control {
     line-height: 2.8;
@@ -89,7 +92,7 @@ Text Domain: meal
 .btn-danger {
     color: #fff;
     border: none;
-    background: #ee6055;
+    background: #222;
 }
 
 .btn {
@@ -98,4 +101,35 @@ Text Domain: meal
     display: inline-block;
     padding: 1rem 3rem;
     text-transform: uppercase;
+}
+
+.price-plan {
+    font-size: 20px;
+    color: #94989d;
+}
+
+.price-plan th {
+    color: #fff;
+    border-bottom-width: 0 !important;
+    background: #222;
+}
+
+.price-plan td:first-child,
+.price-plan th:first-child {
+    text-align: left;
+}
+
+.price-plan td,
+.price-plan th {
+    padding: 1.5rem 1.5rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.plan-active-color {
+    color: #0090b4;
+}
+
+.plan-inactive-color {
+    color: #ee6055;
 }
