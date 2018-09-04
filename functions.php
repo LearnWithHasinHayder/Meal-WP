@@ -78,7 +78,44 @@ function meal_assets() {
 		'imagesloaded-js',
 		'isotope-js'
 	), VERSION, true );
+
+
+
+	if(is_page_template('page-templates/mailchimp.php')){
+		wp_enqueue_style('mailchimp-css','//cdn-images.mailchimp.com/embedcode/classic-10_7.css');
+		$style = <<<EOD
+#mc_embed_signup {
+    background: #fff;
+    clear: left;
+    font: 14px Helvetica, Arial, sans-serif;
+}
+EOD;
+		wp_add_inline_style('mailchimp-css',$style);
+
+		wp_enqueue_script('mailchimp-js','//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js',array('jquery'),'1.0',true);
+		$script = <<<EOD
+(function ($) {
+    window.fnames = new Array();
+    window.ftypes = new Array();
+    fnames[0] = 'EMAIL';
+    ftypes[0] = 'email';
+    fnames[1] = 'FNAME';
+    ftypes[1] = 'text';
+    fnames[2] = 'LNAME';
+    ftypes[2] = 'text';
+    fnames[3] = 'ADDRESS';
+    ftypes[3] = 'address';
+    fnames[4] = 'PHONE';
+    ftypes[4] = 'phone';
+}(jQuery));
+var \$mcj = jQuery.noConflict(true);
+EOD;
+
+		wp_add_inline_script('mailchimp-js',$script);
+	}
+
 	wp_enqueue_script( 'meal-main-js', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery' ), VERSION, true );
+
 
 	if ( is_page_template( 'page-templates/landing.php' ) ) {
 		wp_enqueue_script( 'meal-reservation-js', get_template_directory_uri() . '/assets/js/reservation.js', array( 'jquery' ), VERSION, true );
