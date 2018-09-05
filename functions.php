@@ -72,6 +72,7 @@ function meal_assets() {
 	wp_enqueue_script( 'isotope-js', get_template_directory_uri() . '/assets/js/isotope.pkgd.min.js', array( 'jquery' ), VERSION, true );
 	wp_enqueue_script( 'jquery-isotope-js', get_template_directory_uri() . '/assets/js/jquery.isotope.js', array( 'jquery' ), VERSION, true );
 	wp_enqueue_script( 'google-map-js', '//maps.googleapis.com/maps/api/js?key=AIzaSyBPgqXn1dvX7Nli5rnjuf6unU3MC903qF8', null, '1.0', true );
+	wp_enqueue_script( 'meal-loadmore-js', get_template_directory_uri() . '/assets/js/loadmore.js', array( 'jquery' ), VERSION, true );
 	wp_enqueue_script( 'meal-portfolio-js', get_template_directory_uri() . '/assets/js/portfolio.js', array(
 		'jquery',
 		'jquery-magnific-popup-js',
@@ -80,9 +81,8 @@ function meal_assets() {
 	), VERSION, true );
 
 
-
-	if(is_page_template('page-templates/mailchimp.php')){
-		wp_enqueue_style('mailchimp-css','//cdn-images.mailchimp.com/embedcode/classic-10_7.css');
+	if ( is_page_template( 'page-templates/mailchimp.php' ) ) {
+		wp_enqueue_style( 'mailchimp-css', '//cdn-images.mailchimp.com/embedcode/classic-10_7.css' );
 		$style = <<<EOD
 #mc_embed_signup {
     background: #fff;
@@ -90,9 +90,9 @@ function meal_assets() {
     font: 14px Helvetica, Arial, sans-serif;
 }
 EOD;
-		wp_add_inline_style('mailchimp-css',$style);
+		wp_add_inline_style( 'mailchimp-css', $style );
 
-		wp_enqueue_script('mailchimp-js','//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js',array('jquery'),'1.0',true);
+		wp_enqueue_script( 'mailchimp-js', '//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js', array( 'jquery' ), '1.0', true );
 		$script = <<<EOD
 (function ($) {
     window.fnames = new Array();
@@ -111,7 +111,7 @@ EOD;
 var \$mcj = jQuery.noConflict(true);
 EOD;
 
-		wp_add_inline_script('mailchimp-js',$script);
+		wp_add_inline_script( 'mailchimp-js', $script );
 	}
 
 	wp_enqueue_script( 'meal-main-js', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery' ), VERSION, true );
@@ -170,18 +170,18 @@ function meal_get_theme_options() {
 		)
 	);
 
-	$username = cs_get_option( 'meal_username' );
+	$username      = cs_get_option( 'meal_username' );
 	$purchase_code = cs_get_option( 'meal_purchase_code' );
-	$token = get_option( 'meal_theme_token' );
+	$token         = get_option( 'meal_theme_token' );
 
 	if ( get_option( 'meal_theme_activation' ) == 1 ) {
 
-		$theme_demo_url = "http://secure.meal.com/deliver.php?u={$username}&pc={$purchase_code}&token={$token}&file=theme-demo";
+		$theme_demo_url                               = "http://secure.meal.com/deliver.php?u={$username}&pc={$purchase_code}&token={$token}&file=theme-demo";
 		$options[ count( $options ) - 1 ]['fields'][] = array(
-			'id'    => 'meal_download_file',
-			'type'  => 'notice',
-			'class' => 'success',
-			'content' =>  "Download <a target='_blank' href='{$theme_demo_url}'>From Here</a> ",
+			'id'      => 'meal_download_file',
+			'type'    => 'notice',
+			'class'   => 'success',
+			'content' => "Download <a target='_blank' href='{$theme_demo_url}'>From Here</a> ",
 		);
 	}
 
@@ -409,7 +409,7 @@ function meal_verify_purchase() {
 		if ( 'error' != $body ) {
 			update_option( 'meal_theme_activation', 1 );
 			update_option( 'meal_theme_token', $body );
-			require_once(get_theme_file_path("/inc/tgm.php"));
+			require_once( get_theme_file_path( "/inc/tgm.php" ) );
 		} else {
 			update_option( 'meal_theme_activation', 0 );
 			update_option( 'meal_theme_token', '' );
@@ -425,40 +425,46 @@ function meal_verify_purchase() {
 add_action( 'after_setup_theme', 'meal_verify_purchase' );
 
 
-function meal_allow_external_host($allow,$host, $url){
-	if('secure.meal.com'==$host){
+function meal_allow_external_host( $allow, $host, $url ) {
+	if ( 'secure.meal.com' == $host ) {
 		return true;
 	}
 }
-add_filter('http_request_host_is_external','meal_allow_external_host',10,3);
 
-function meal_comment_form_fields($fields){
+add_filter( 'http_request_host_is_external', 'meal_allow_external_host', 10, 3 );
+
+function meal_comment_form_fields( $fields ) {
 	/*echo "<pre>";
 	print_r($fields);
 	echo "</pre>";*/
 
 	$comment_field = $fields['comment'];
-	unset($fields['comment']);
+	unset( $fields['comment'] );
 	$fields['comment'] = $comment_field;
+
 	return $fields;
 }
-add_filter('comment_form_fields','meal_comment_form_fields');
+
+add_filter( 'comment_form_fields', 'meal_comment_form_fields' );
 
 
-
-function meal_process_pricing_item($item){
-	if(trim($item)=='1'){
+function meal_process_pricing_item( $item ) {
+	if ( trim( $item ) == '1' ) {
 		return '<i class="fa fa-check plan-active-color fa-2x">';
-	}else if(trim($item)=='0'){
+	} else if ( trim( $item ) == '0' ) {
 		return '<i class="fa fa-ellipsis-h plan-inactive-color fa-2x">';
 	}
 
 	return $item;
 }
-add_filter('meal_pricing_item','meal_process_pricing_item');
 
+add_filter( 'meal_pricing_item', 'meal_process_pricing_item' );
 
+function get_max_page_number() {
+	global $wp_query;
 
+	return $wp_query->max_num_pages;
+}
 
 
 
