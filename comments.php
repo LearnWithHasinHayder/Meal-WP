@@ -17,12 +17,12 @@
 
 				<?php
 				$meal_comment_fields = array();
-				$flowapp_name_field_placeholder = __('Name','meal');
+				$meal_name_field_placeholder = __('Name','meal');
 				$meal_comment_fields['author']=<<<EOD
 <div class="row">
 	<div class=" col-md-6">
 		<div class="form-group">
-			<input type="text" id="author" name="author"  class="form-control" placeholder="{$flowapp_name_field_placeholder}*" required="">
+			<input type="text" id="author" name="author"  class="form-control" placeholder="{$meal_name_field_placeholder}*" required="">
 		</div>
 	</div>
 EOD;
